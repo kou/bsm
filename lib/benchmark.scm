@@ -103,6 +103,13 @@
 (define-method x->string ((self <benchmark-time>))
   (benchmark-time-format self))
 
+(define benchmark-time-format-subst-infos
+  (map (lambda (fmt-str accessor)
+         (cons (string->regexp #`"~(\\d*)(?:\\.(\\d+))?,|fmt-str|")
+               accessor))
+       '("u" "y" "U" "Y" "t" "r")
+       (list utime-of stime-of cutime-of cstime-of total-of real-of)))
+
 (define (benchmark-time-format bt . args)
   (define (format-bt prefix postfix accessor)
     (format #f #`",|prefix|,|postfix|" (accessor bt)))
@@ -113,6 +120,17 @@
       (format #f #`"~,|before-point-size|d.~,|after-point-size|,,'0d"
               (inexact->exact sec) (inexact->exact ifrac))))
   
+  (define (subst-bt-format string)
+    (fold (lambda (info str)
+            (regexp-replace-all (car info)
+                                str
+                                (lambda (md)
+                                  (format-bt-delta-time (md 1)
+                                                        (md 2)
+                                                        (cdr info)))))
+          string
+          benchmark-time-format-subst-infos))
+
   (let-keywords* args ((format-string #f)
                        (format-args '())
                        (have-user-format-string? (not (eq? #f format-string))))
@@ -121,42 +139,7 @@
                                     str
                                     (lambda (md)
                                       (format-bt (md 1) "a" label-of))))
-           (str (regexp-replace-all #/~(\d*)(?:\.(\d+))?u/
-                                    str
-                                    (lambda (md)
-                                      (format-bt-delta-time (md 1)
-                                                            (md 2)
-                                                            utime-of))))
-           (str (regexp-replace-all #/~(\d*)(?:\.(\d+))?y/
-                                    str
-                                    (lambda (md)
-                                      (format-bt-delta-time (md 1)
-                                                            (md 2)
-                                                            stime-of))))
-           (str (regexp-replace-all #/~(\d*)(?:\.(\d+))?U/
-                                    str
-                                    (lambda (md)
-                                      (format-bt-delta-time (md 1)
-                                                            (md 2)
-                                                            cutime-of))))
-           (str (regexp-replace-all #/~(\d*)(?:\.(\d+))?Y/
-                                    str
-                                    (lambda (md)
-                                      (format-bt-delta-time (md 1)
-                                                            (md 2)
-                                                            cstime-of))))
-           (str (regexp-replace-all #/~(\d*)(?:\.(\d+))?t/
-                                    str
-                                    (lambda (md)
-                                      (format-bt-delta-time (md 1)
-                                                            (md 2)
-                                                            total-of))))
-           (str (regexp-replace-all #/~(\d*)(?:\.(\d+))?r/
-                                    str
-                                    (lambda (md)
-                                      (format-bt-delta-time (md 1)
-                                                            (md 2)
-                                                            real-of)))))
+           (str (subst-bt-format str)))
       (if have-user-format-string?
         (apply format #f str format-args)
         str))))
