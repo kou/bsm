@@ -2,7 +2,7 @@
 
 = README.ja
 
-$Id: README.ja 98 2004-01-09 16:34:38Z kou $
+$Id$
 
 == 作者
 
@@ -14,12 +14,12 @@ GPL or BSD License
 
 == メーリングリスト
 
-((<COZMIXNG RWiki - 連絡先|URL:http://www.cozmixng.org/~rwiki/index.rb?cmd=view;name=%CF%A2%CD%ED%C0%E8>))を御覧下さい．
+((<COZMIXNG RWiki - 連絡先|URL:http://www.cozmixng.org/~rwiki/?cmd=view;name=%CF%A2%CD%ED%C0%E8>))を御覧下さい．
 
 == なにこれ？
 
-rubyに標準添付されているbenchmark.rbを参考に作られた，ベンチ
-マークライブラリです．
+rubyに標準添付されているbenchmark.rbを参考に作られた，Gauche
+用ベンチマークライブラリです．
 
 == 入手方法
 
@@ -38,7 +38,7 @@ rubyに標準添付されているbenchmark.rbを参考に作られた，ベンチ
   (use benchmark)
 
   (bm (lambda (r)
-	(report r (lambda () ベンチマークをとりたいことをここでする))
-	...))
+        (report r (lambda () ベンチマークをとりたいことをここでする))
+        ...))
 
 具体的な使い方は，sample/以下を見てください．
