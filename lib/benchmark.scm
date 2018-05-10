@@ -5,16 +5,16 @@
   (use gauche.sequence)
   (export benchmark bm report
           benchmark-measure
-          
+
           benchmark-time-add
           benchmark-time-sub
           benchmark-time-mul
           benchmark-time-div))
 (select-module benchmark)
 
-(define *benchmark-format-string* 
+(define *benchmark-format-string*
   "~4.5u ~4.5y ~4.5t ~4.5r\n")
-(define *benchmark-caption* 
+(define *benchmark-caption*
   "      user     system      total       real\n")
 
 (define-class <benchmark-time> ()
@@ -113,13 +113,13 @@
 (define (benchmark-time-format bt . args)
   (define (format-bt prefix postfix accessor)
     (format #f #`",|prefix|,|postfix|" (accessor bt)))
-  
+
   (define (format-bt-delta-time before-point-size after-point-size accessor)
     (let*-values (((frac sec) (modf (accessor bt)))
                   ((ignore ifrac) (modf (+ (* frac 1000) 0.5))))
       (format #f #`"~,|before-point-size|d.~,|after-point-size|,,'0d"
               (inexact->exact sec) (inexact->exact ifrac))))
-  
+
   (define (subst-bt-format string)
     (fold (lambda (info str)
             (regexp-replace-all (car info)
@@ -212,7 +212,7 @@
            results)))
       (if buffering-mode
         (set! (port-buffering output) buffering-mode)))))
-          
+
 (define (bm proc . args)
   (let-keywords* args ((label-width 0)
                        (labels '()))
