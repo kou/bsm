@@ -1,4 +1,4 @@
-(define-module benchmark
+(define-module bsm
   (use srfi-1)
   (use srfi-11)
   (use srfi-13)
@@ -10,7 +10,7 @@
           benchmark-time-sub
           benchmark-time-mul
           benchmark-time-div))
-(select-module benchmark)
+(select-module bsm)
 
 (define *benchmark-format-string*
   "~4.5u ~4.5y ~4.5t ~4.5r\n")
@@ -239,4 +239,4 @@
       self)))
 
 
-(provide "benchmark")
+(provide "bsm")

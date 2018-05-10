@@ -1,6 +1,6 @@
 #!/usr/bin/env gosh
 
-(use benchmark)
+(use bsm)
 (use srfi-1)
 
 (define n 500000)

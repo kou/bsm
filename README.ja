@@ -35,7 +35,7 @@ rubyに標準添付されているbenchmark.rbを参考に作られた，Gauche
 
 簡単な使い方は以下の通りです．
 
-  (use benchmark)
+  (use bsm)
 
   (bm (lambda (r)
         (report r (lambda () ベンチマークをとりたいことをここでする))

@@ -41,7 +41,7 @@ benchmark.rb in ruby's distribution.
 
 The following is a simple usage.
 
-  (use benchmark)
+  (use bsm)
 
   (bm (lambda (r)
         (report r (lambda () Do something what you want to benchmark here))
