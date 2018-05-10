@@ -1,0 +1,3 @@
+[submodule "isntall"]
+	path = isntall
+	url = git@github.com:kou/gauche-library-installer.git
